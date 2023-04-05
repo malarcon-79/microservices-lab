@@ -1,0 +1,18 @@
+// LAB - Billing microservice gRPC
+syntax = "proto3";
+
+option go_package = "system.billing";
+
+package lab.system.billing;
+
+service BillingService {
+    rpc CreateInvoice (Invoice) returns (Invoice);
+    
+    rpc UpdateInvoice (Invoice) returns (Invoice);
+
+    rpc AddItem (InvoiceItemAdd) returns (Invoice);
+
+    rpc DeleteItem (InvoiceItemAdd) returns (Invoice);
+
+    rpc GetInvoices (InvoiceFilter) returns (Invoices);
+}
