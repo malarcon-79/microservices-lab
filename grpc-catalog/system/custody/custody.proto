@@ -1,0 +1,49 @@
+// LAB - Custody microservice gRPC
+syntax = "proto3";
+
+option go_package = "system.custody";
+
+package lab.system.custody;
+
+service CustodyService {
+    rpc AddCustodyStock (CustodyAdd) returns (Empty);
+
+    rpc ClosePeriod (CloseFilters) returns (Empty);
+
+    rpc GetCustody (CustodyFilter) returns (Custodies);
+}
+
+message Empty {
+    // Nada
+}
+
+message CustodyAdd {
+    string period = 1;
+	string stock = 2;
+	string client_id = 3;
+    double quantity = 4;
+}
+
+message CloseFilters {
+    string period = 1;
+    string market = 2;
+}
+
+message CustodyFilter {
+    string period = 1;
+	string stock = 2;
+	string client_id = 3;
+}
+
+message Custodies {
+    message Custody {
+        string period = 1;
+	    string stock = 2;
+	    string client_id = 3;
+        string market = 4;
+        double price = 5;
+        int32 quantity = 6;
+    }
+
+    repeated Custody items = 1;
+}
