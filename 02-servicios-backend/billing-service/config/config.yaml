@@ -1,0 +1,4 @@
+database:
+  type: PSQL
+  #connection: host=<some-host> port=<some-port> user=<some-user> password=<hmmm> dbname=<initial-db> sslmode=disable
+  connection: "" # empty

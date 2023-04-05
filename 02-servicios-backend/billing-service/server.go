@@ -14,6 +14,8 @@ import (
 	"go.uber.org/zap"
 
 	"google.golang.org/grpc"
+
+	"github.com/malarcon-79/microservices-lab/orm-go/initdb"
 )
 
 func main() {
@@ -26,12 +28,21 @@ func main() {
 	server := grpc.NewServer(opts...)
 
 	// registrar stubs Servidor
-	controller := &controllers.BillingServiceController{}
-	pb.RegisterBillingServiceServer(server, controller)
+	controller, _ := controllers.NewBillingServiceController()
+	pb.RegisterBillingServiceServer(server, &controller)
 
 	errChannel := make(chan error)
 	stopChannel := make(chan os.Signal, 1)
 	signal.Notify(stopChannel, syscall.SIGTERM, syscall.SIGINT)
+
+	dsn := os.Getenv("dsn")
+	if len(dsn) == 0 {
+		dsn = "host=psql-backend.backend port=5432 user=postgres password=postgres dbname=lab sslmode=disable"
+	}
+
+	if err := initdb.DAOInit(dsn, "psql"); err != nil {
+		logger.Panic(err)
+	}
 
 	go func() {
 		listener, err := net.Listen("tcp", "0.0.0.0:5000")
