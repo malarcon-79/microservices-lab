@@ -3,7 +3,7 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "system.billing";
+option go_package = "system/billing";
 
 package lab.system.billing;
 

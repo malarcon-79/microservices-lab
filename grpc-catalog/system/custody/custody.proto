@@ -1,7 +1,7 @@
 // LAB - Custody microservice gRPC
 syntax = "proto3";
 
-option go_package = "system.custody";
+option go_package = "system/custody";
 
 package lab.system.custody;
 
