@@ -3,8 +3,8 @@ module github.com/malarcon-79/microservices-lab/02-servicios-backend/billing-ser
 go 1.20
 
 require (
-	github.com/malarcon-79/microservices-lab/grpc-protos-go v0.0.0-20230405223454-8c647988ca22
-	github.com/malarcon-79/microservices-lab/orm-go v0.0.0-20230405223454-8c647988ca22
+	github.com/malarcon-79/microservices-lab/grpc-protos-go v0.0.0-20230412205611-ae5f9e79f825
+	github.com/malarcon-79/microservices-lab/orm-go v0.0.0-20230412205611-ae5f9e79f825
 	github.com/shopspring/decimal v1.3.1
 	go.uber.org/zap v1.24.0
 	google.golang.org/grpc v1.54.0

@@ -15,7 +15,9 @@ import (
 
 	"google.golang.org/grpc"
 
+	"github.com/malarcon-79/microservices-lab/orm-go/dao"
 	"github.com/malarcon-79/microservices-lab/orm-go/initdb"
+	"github.com/malarcon-79/microservices-lab/orm-go/model"
 )
 
 func main() {
@@ -42,6 +44,9 @@ func main() {
 
 	if err := initdb.DAOInit(dsn, "psql"); err != nil {
 		logger.Panic(err)
+	}
+	if err := dao.DB.AutoMigrate(&model.Invoice{}, &model.InvoiceItem{}); err != nil {
+		logger.Panic("no se pudo migrar tablas", err)
 	}
 
 	go func() {
