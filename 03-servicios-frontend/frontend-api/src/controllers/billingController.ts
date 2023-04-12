@@ -12,8 +12,7 @@ export const create = async (req: Request, res: Response) => {
     };
 
     const creds = credentials.createInsecure();
-    let stub: ServiceClient =  //new ServiceClientConstructor('billing-service.backend:5000', creds, options);
-    
+    //let stub: ServiceClient =  //new ServiceClientConstructor('billing-service.backend:5000', creds, options);
 
     return res.json(req.body);
     // llamada gRPC

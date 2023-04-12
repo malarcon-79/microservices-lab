@@ -24,5 +24,9 @@
     "grpc-tools": "^1.12.4",
     "protobufjs": "^7.2.3",
     "rimraf": "^5.0.0"
-  }
+  },
+  "files": [
+    "/types",
+    "/lib"
+  ]
 }
