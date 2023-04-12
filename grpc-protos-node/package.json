@@ -1,0 +1,28 @@
+{
+  "name": "grpc-protos-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "proto:js": "grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src --grpc_out=./src --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin -I ../grpc-catalog $(find ../grpc-catalog -name \"*.proto\" -type f)",
+    "proto:ts": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=./src -I ../grpc-catalog $(find ../grpc-catalog -name \"*.proto\" -type f)",
+    "proto:pbjs": "pbjs --es5 -t static-module -p protos -p google-protos -p grpc $(find ../grpc-catalog -name \"*.proto\" -type f) -o ./src/protos.js --keep-case",
+    "proto:pbts": "pbts -o ./types/index.d.ts ./src/protos.js",
+    "proto": "npm run proto:pbjs && npm run proto:pbts && npm run proto:js && npm run proto:ts",
+    "copyfiles": "rimraf ./lib/protos*.* && rimraf ./lib system*.* && cpy src/*.js src/*.d.ts lib && cpy --parents --cwd=src grpc system ../lib",
+    "build": "rimraf ./lib && rimraf ./src/protos.js && npm run proto && tsc && npm run copyfiles"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.8.13"
+  },
+  "devDependencies": {
+    "cpy-cli": "^4.2.0",
+    "grpc_tools_node_protoc_ts": "^5.3.3",
+    "grpc-tools": "^1.12.4",
+    "protobufjs": "^7.2.3",
+    "rimraf": "^5.0.0"
+  }
+}

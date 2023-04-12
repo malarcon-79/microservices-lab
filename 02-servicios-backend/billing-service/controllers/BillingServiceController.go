@@ -10,6 +10,9 @@ import (
 	"github.com/malarcon-79/microservices-lab/orm-go/model"
 	"github.com/shopspring/decimal"
 	"go.uber.org/zap"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type BillingServiceController struct {
@@ -58,5 +61,43 @@ func (c *BillingServiceController) DeleteItem(ctx context.Context, msg *pb.Invoi
 }
 
 func (c *BillingServiceController) GetInvoices(ctx context.Context, msg *pb.InvoiceFilter) (*pb.Invoices, error) {
-	return nil, errors.New("no implementado")
+	orm := dao.DB.Model(&model.Invoice{})
+
+	invoices := []*model.Invoice{}
+	filter := &model.Invoice{
+		Period:        msg.Period,
+		ClientId:      msg.ClientId,
+		InvoiceStatus: msg.InvoiceStatus,
+	}
+	if err := orm.Preload("InvoiceItems").Find(&invoices, filter).Error; err != nil {
+		c.logger.Errorf("no se pudo buscar facturas con filtros %v", filter, err)
+		return nil, status.Errorf(codes.Internal, "no se pudo realizar query")
+	}
+
+	result := &pb.Invoices{}
+
+	for _, item := range invoices {
+		invoiceItems := []*pb.InvoiceItem{}
+		for _, i := range item.InvoiceItems {
+			invoiceItems = append(invoiceItems, &pb.InvoiceItem{
+				Id:        i.ID,
+				InvoiceId: i.InvoiceId,
+				Details:   i.Details,
+				Amount:    i.Amount.InexactFloat64(),
+			})
+		}
+
+		result.Invoices = append(result.Invoices, &pb.Invoice{
+			Id:            item.ID,
+			Period:        item.Period,
+			ClientId:      item.ClientId,
+			InvoiceStatus: item.InvoiceStatus,
+			DateCreated:   timestamppb.New(item.DateCreated),
+			Details:       item.Details,
+			TotalCharge:   item.TotalCharge.InexactFloat64(),
+			InvoiceItems:  invoiceItems,
+		})
+	}
+
+	return result, nil
 }
