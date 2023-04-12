@@ -4,6 +4,7 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+// Registro de Detalle
 type InvoiceItem struct {
 	ID        int32           `gorm:"primary_key;column:id;type:INT4 NOT NULL AUTO_INCREMENT" json:"id"`
 	InvoiceId int32           `gorm:"column:invoice_id;type:INT4 NOT NULL;" json:"invoice_id"`
