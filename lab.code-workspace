@@ -8,6 +8,9 @@
         },
         {
             "path": "02-servicios-backend/custody-service"
+        },
+        {
+            "path": "orm-go"
         }
     ]
 }
