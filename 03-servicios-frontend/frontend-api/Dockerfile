@@ -18,6 +18,7 @@ COPY --chown=node:node . .
 
 COPY --from=build --chown=node:node /usr/src/app/node_modules /usr/src/app/node_modules
 COPY --from=build --chown=node:node /usr/src/app/dist /usr/src/app/dist
+COPY protos ./protos
 
 USER node
 

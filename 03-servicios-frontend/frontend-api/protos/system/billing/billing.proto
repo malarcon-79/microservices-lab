@@ -1,0 +1,55 @@
+// LAB - Billing microservice gRPC
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "system/billing";
+
+package lab.system.billing;
+
+service BillingService {
+    rpc CreateInvoice (Invoice) returns (Invoice);
+    
+    rpc UpdateInvoice (Invoice) returns (Invoice);
+
+    rpc AddItem (InvoiceItemAdd) returns (Invoice);
+
+    rpc DeleteItem (InvoiceItemAdd) returns (Invoice);
+
+    rpc GetInvoices (InvoiceFilter) returns (Invoices);
+}
+
+message InvoiceItem {
+    int32 id = 1;
+	int32 invoice_id = 2;
+	string details = 3;
+	double amount = 4;
+}
+
+message Invoice {
+    int32 id = 1;
+	string period = 2;
+	string client_id = 3;
+	bool invoice_status = 4;
+	google.protobuf.Timestamp date_created = 5;
+	string details = 6;
+	double total_charge = 7;
+
+    repeated InvoiceItem invoice_items = 13;
+}
+
+message InvoiceItemAdd {
+    int32 id = 1;
+    InvoiceItem item = 2;
+    bool add = 3;
+}
+
+message InvoiceFilter {
+    string period = 1;
+    string client_id = 2;
+    bool invoice_status = 3;
+}
+
+message Invoices {
+    repeated Invoice invoices = 1;
+}
