@@ -134,6 +134,34 @@ spec:
               containerPort: 80
               protocol: TCP
 ---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-api
+  namespace: frontend
+  labels:
+    tipo: microservicio
+    app: frontend-api
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 40mb
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '300'
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '300'
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: www.scalex.cl
+      http:
+        paths:
+          - path: /api/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: frontend-api
+                port:
+                  number: 3000
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -161,14 +189,10 @@ metadata:
   labels:
     tipo: microservicio
     app: frontend-app
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 40mb
-    nginx.ingress.kubernetes.io/proxy-read-timeout: '300'
-    nginx.ingress.kubernetes.io/proxy-send-timeout: '300'
 spec:
   ingressClassName: nginx
   rules:
-    - host: localhost
+    - host: www.scalex.cl
       http:
         paths:
           - path: /
