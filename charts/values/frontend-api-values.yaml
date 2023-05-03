@@ -1,0 +1,18 @@
+hola: HOLA
+
+replicaCount: 8
+
+image:
+  repository: frontend-api
+  tag: latest
+
+nameOverride: frontend-api
+fullnameOverride: frontend-api
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: true
+  className: nginx
