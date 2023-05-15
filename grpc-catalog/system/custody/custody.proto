@@ -5,11 +5,15 @@ option go_package = "system/custody";
 
 package lab.system.custody;
 
+// Servicio de Custodia
 service CustodyService {
+    // Agregar 1 registro de custodia a la tabla de custodias
     rpc AddCustodyStock (CustodyAdd) returns (Empty);
 
+    // Cerrar período (año/mes) de custodia y pasar los registros al siguiente período
     rpc ClosePeriod (CloseFilters) returns (Empty);
 
+    // Obtener el listado de custodias para un conjunto de parámetros de búsqueda
     rpc GetCustody (CustodyFilter) returns (Custodies);
 }
 
