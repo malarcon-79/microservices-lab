@@ -8,7 +8,7 @@ type Custody struct {
 	ClientId string          `gorm:"primary_key;column:client_id;type:TEXT NOT NULL" json:"client_id"`
 	Market   string          `gorm:"column:market;type:TEXT NOT NULL" json:"market"`
 	Price    decimal.Decimal `gorm:"column:price;type:decimal(20, 6) NOT NULL" json:"price"`
-	Quantity int32           `gorm:"column:period;type:INT4 NOT NULL" json:"quantity"`
+	Quantity int32           `gorm:"column:quantity;type:INT4 NOT NULL" json:"quantity"`
 }
 
 func (t *Custody) TableName() string {
